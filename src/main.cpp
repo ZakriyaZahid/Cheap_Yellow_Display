@@ -6,14 +6,14 @@
 // === EEZ Studio GUI headers ===
 extern "C"
 {
-#include "ui.h"
-#include "screens.h"
-#include "styles.h"
-#include "images.h"
-#include "actions.h"
-#include "fonts.h"
-#include "vars.h"
-#include "structs.h"
+#include "ui/ui.h"
+#include "ui/screens.h"
+#include "ui/styles.h"
+#include "ui/images.h"
+#include "ui/actions.h"
+#include "ui/fonts.h"
+#include "ui/vars.h"
+#include "ui/structs.h"
 }
 
 // === Touchscreen SPI pins ===

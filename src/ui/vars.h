@@ -5,20 +5,22 @@
 #include <stdbool.h>
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-    // enum declarations
+// enum declarations
 
-    // Flow global variables
 
-    enum FlowGlobalVariables
-    {
-        FLOW_GLOBAL_VARIABLE_NONE
-    };
 
-    // Native global variables
+// Flow global variables
+
+enum FlowGlobalVariables {
+    FLOW_GLOBAL_VARIABLE_NONE
+};
+
+// Native global variables
+
+
 
 #ifdef __cplusplus
 }
