@@ -1,13 +1,79 @@
+//==============================================================================
+//
+//  actions.c
+//
+//
+//==============================================================================
+//  FILE INFORMATION
+//==============================================================================
+//
+//  Source:
+//
+//  Project:    Sensor Data Dashboard
+//
+//  Author:     M.Zakriya
+//
+//  Date:       13/07/2025
+//
+//  Revision:   1.0
+//
+//==============================================================================
+//  FILE DESCRIPTION
+//==============================================================================
+//
+//! \file
+//! This module takes care of the
+//
+//==============================================================================
+//  REVISION HISTORY
+//==============================================================================
+//  Revision: 1.0
+//
+//
+
+//==============================================================================
+//  INCLUDES
+//==============================================================================
+
 #include "lvgl.h"
 #include "actions.h"
 #include "screens.h"
 #include <stdio.h>
 
-float temp_critical = 32.0;
-float humid_critical = 45.0;
-float co2_critical = 900.0;
+float temp_critical = 50.0;
+float humid_critical = 75.0;
+float co2_critical = 70.0;
 int value_index = 0;
 
+//==============================================================================
+//
+//   int map(float x, float in_min, float in_max, float out_min, float out_max)
+//
+//   Author:   M. Zakriya
+//   Date:     13/07/2025
+//
+//!
+//
+//==============================================================================
+int map(float x, float in_min, float in_max, float out_min, float out_max)
+{
+    if (x < in_min)
+        x = in_min;
+    if (x > in_max)
+        x = in_max;
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+//==============================================================================
+//
+//   action_go_to_settings(lv_event_t *e)
+//
+//   Author:   M. Zakriya
+//   Date:     13/07/2025
+//
+//!
+//
+//==============================================================================
 void action_go_to_settings(lv_event_t *e)
 {
     // Example logic to switch screen
@@ -15,17 +81,47 @@ void action_go_to_settings(lv_event_t *e)
     populate_critical_inputs();
 }
 
+//==============================================================================
+//
+//   action_go_to_home(lv_event_t *e)
+//
+//   Author:   M. Zakriya
+//   Date:     13/07/2025
+//
+//!
+//
+//==============================================================================
 void action_go_to_home(lv_event_t *e)
 {
     loadScreen(SCREEN_ID_DASHBOARD);
 }
 
+//==============================================================================
+//
+//   void action_update_critical_values(lv_event_t *e)
+//
+//   Author:   M. Zakriya
+//   Date:     13/07/2025
+//
+//!
+//
+//==============================================================================
 void action_update_critical_values(lv_event_t *e)
 {
     // Your custom logic here
     update_critical_values_from_inputs();
 }
 
+//==============================================================================
+//
+//   void textarea_event_cb(lv_event_t *e)
+//
+//   Author:   M. Zakriya
+//   Date:     13/07/2025
+//
+//!
+//
+//==============================================================================
 void textarea_event_cb(lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -43,6 +139,16 @@ void textarea_event_cb(lv_event_t *e)
     }
 }
 
+//==============================================================================
+//
+//   void keypad_event_cb(lv_event_t *e)
+//
+//   Author:   M. Zakriya
+//   Date:     13/07/2025
+//
+//!
+//
+//==============================================================================
 void keypad_event_cb(lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -53,16 +159,36 @@ void keypad_event_cb(lv_event_t *e)
     }
 }
 
+//==============================================================================
+//
+//   void init_sensor_data()
+//
+//   Author:   M. Zakriya
+//   Date:     13/07/2025
+//
+//!
+//
+//==============================================================================
 void init_sensor_data()
 {
     for (int i = 0; i < 50; i++)
     {
-        temp_values[i] = 30.0 + i * 0.1;  // 30.0 to 35.0
-        humid_values[i] = 40.0 + i * 0.2; // 40.0 to 50.0
-        co2_values[i] = 800.0 + i * 10;   // 800 to 1300
+        temp_values[i] = 30.0 + i * 0.5; // 30.0 to 35.0
+        humid_values[i] = 40.0 + i * 1;  // 40.0 to 50.0
+        co2_values[i] = 32.0 + i * 1.3;  // 800 to 1300
     }
 }
 
+//==============================================================================
+//
+//   void update_sensor_display_cb(lv_timer_t *timer)
+//
+//   Author:   M. Zakriya
+//   Date:     13/07/2025
+//
+//!
+//
+//==============================================================================
 void update_sensor_display_cb(lv_timer_t *timer)
 {
     if (value_index >= 50)
@@ -75,28 +201,51 @@ void update_sensor_display_cb(lv_timer_t *timer)
 
     char buf[16];
 
-    // Update temperature
+    // ==== TEMPERATURE ====
     snprintf(buf, sizeof(buf), "%.2f", temp);
     lv_label_set_text(objects.temp_value_display, buf);
-    lv_obj_set_style_text_color(objects.temp_value_display,
-                                temp > temp_critical ? lv_color_hex(0xFF0000) : lv_color_hex(0x000000),
-                                LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    // Update humidity
+    lv_color_t temp_color = (temp > temp_critical) ? lv_color_hex(0xFF0000) : lv_color_hex(0xFFFFC8);
+    lv_obj_set_style_text_color(objects.temp_value_display, temp_color, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    // Map temperature to bar (e.g., 0-100°C to 0-100%)
+    int temp_percent = map(temp, 0, 100, 0, 100);
+    lv_bar_set_value(objects.temp_visual, temp_percent, LV_ANIM_OFF);
+    lv_obj_set_style_bg_color(objects.temp_visual, temp_color, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+
+    // ==== HUMIDITY ====
     snprintf(buf, sizeof(buf), "%.2f", humid);
     lv_label_set_text(objects.humid_value_display, buf);
-    lv_obj_set_style_text_color(objects.humid_value_display,
-                                humid > humid_critical ? lv_color_hex(0xFF0000) : lv_color_hex(0x000000),
-                                LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    // Update CO2
+    lv_color_t humid_color = (humid > humid_critical) ? lv_color_hex(0xFF0000) : lv_color_hex(0xFFFFC8);
+    lv_obj_set_style_text_color(objects.humid_value_display, humid_color, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    int humid_percent = map(humid, 0, 100, 0, 100);
+    lv_arc_set_value(objects.humid_visual, humid_percent);
+    lv_obj_set_style_arc_color(objects.humid_visual, humid_color, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+
+    // ==== CO2 ====
     snprintf(buf, sizeof(buf), "%.2f", co2);
     lv_label_set_text(objects.co2_value_display, buf);
-    lv_obj_set_style_text_color(objects.co2_value_display,
-                                co2 > co2_critical ? lv_color_hex(0xFF0000) : lv_color_hex(0x000000),
-                                LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    lv_color_t co2_color = (co2 > co2_critical) ? lv_color_hex(0xFF0000) : lv_color_hex(0xFFFFC8);
+    lv_obj_set_style_text_color(objects.co2_value_display, co2_color, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    int co2_percent = map(co2, 0, 100, 0, 100); // Typical CO₂ range
+    lv_bar_set_value(objects.co2_visual, co2_percent, LV_ANIM_OFF);
+    lv_obj_set_style_bg_color(objects.co2_visual, co2_color, LV_PART_INDICATOR | LV_STATE_DEFAULT);
 }
 
+//==============================================================================
+//
+//   void populate_critical_inputs(void)
+//
+//   Author:   M. Zakriya
+//   Date:     13/07/2025
+//
+//!
+//
+//==============================================================================
 void populate_critical_inputs(void)
 {
     char buf[6]; // 5 digits max + null terminator
@@ -117,6 +266,16 @@ void populate_critical_inputs(void)
     lv_textarea_set_text(objects.co2_critical_value, buf);
 }
 
+//==============================================================================
+//
+//   void update_critical_values_from_inputs(void)
+//
+//   Author:   M. Zakriya
+//   Date:     13/07/2025
+//
+//!
+//
+//==============================================================================
 void update_critical_values_from_inputs(void)
 {
     const char *temp_str = lv_textarea_get_text(objects.temp_critical_value);

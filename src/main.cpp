@@ -1,5 +1,42 @@
+//==============================================================================
+//
+//  main.cpp
+//
+//
+//==============================================================================
+//  FILE INFORMATION
+//==============================================================================
+//
+//  Source:
+//
+//  Project:    Sensor Data Dashboard
+//
+//  Author:     M.Zakriya
+//
+//  Date:       13/07/2025
+//
+//  Revision:   1.0
+//
+//==============================================================================
+//  FILE DESCRIPTION
+//==============================================================================
+//
+//! \file
+//! This module takes care of the
+//
+//==============================================================================
+//  REVISION HISTORY
+//==============================================================================
+//  Revision: 1.0
+//
+//
+
+//==============================================================================
+//  INCLUDES
+//==============================================================================
+
 #include <Arduino.h>
-#include <lvgl.h> // Top-level include for LVGL 8.x
+#include <lvgl.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
 
@@ -25,32 +62,30 @@ extern "C"
 
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
-#define DRAW_BUF_SIZE (SCREEN_WIDTH * 10)
+#define DRAW_BUF_SIZE (SCREEN_WIDTH * 10) // Lines of buffer
 
-SPIClass touchscreenSPI = SPIClass(VSPI);
+// Globals
+SPIClass touchscreenSPI(VSPI);
 XPT2046_Touchscreen touchscreen(XPT2046_CS, XPT2046_IRQ);
 TFT_eSPI tft = TFT_eSPI();
+lv_display_t *disp = nullptr;
 
-// === Display flush for LVGL ===
-void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p)
+// LVGL flush function
+void my_disp_flush(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map)
 {
 	tft.startWrite();
 	int32_t w = area->x2 - area->x1 + 1;
 	int32_t h = area->y2 - area->y1 + 1;
 	tft.setAddrWindow(area->x1, area->y1, w, h);
-	tft.pushColors((uint16_t *)color_p, w * h, true);
-
-	tft.pushColors((uint16_t *)&color_p->full,
-				   (area->x2 - area->x1 + 1) * (area->y2 - area->y1 + 1),
-				   true);
+	tft.pushColors((uint16_t *)px_map, w * h, true);
 	tft.endWrite();
-	lv_disp_flush_ready(disp);
+	lv_display_flush_ready(disp);
 }
 
-// === Touch input read ===
-void touchscreen_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
+// LVGL input read function
+void touchscreen_read(lv_indev_t *indev, lv_indev_data_t *data)
 {
-	(void)indev_drv;
+	(void)indev;
 	if (touchscreen.tirqTouched() && touchscreen.touched())
 	{
 		TS_Point p = touchscreen.getPoint();
@@ -66,11 +101,10 @@ void touchscreen_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
 	}
 }
 
-// === Optional logging ===
-void log_print(const char *buf)
+// Optional LVGL log callback
+void log_print_cb(lv_log_level_t level, const char *buf)
 {
 	Serial.println(buf);
-	Serial.flush();
 }
 
 void setup()
@@ -78,47 +112,38 @@ void setup()
 	Serial.begin(115200);
 	delay(1000);
 
-	// Init LVGL
+	// LVGL init
 	lv_init();
-	lv_log_register_print_cb(log_print);
+	lv_log_register_print_cb(log_print_cb);
 
-	// Init Touch
+	// Init touchscreen SPI and touch
 	touchscreenSPI.begin(XPT2046_CLK, XPT2046_MISO, XPT2046_MOSI, XPT2046_CS);
 	touchscreen.begin(touchscreenSPI);
-	touchscreen.setRotation(2); // landscape
+	touchscreen.setRotation(2); // Landscape mode
 
-	// Init TFT
+	// Init TFT display
 	tft.begin();
-	tft.setRotation(1); // landscape
+	tft.setRotation(1); // Landscape
 
-	// LVGL display buffer
-	static lv_disp_draw_buf_t draw_buf;
+	// Display buffer
 	static lv_color_t buf1[DRAW_BUF_SIZE];
-	lv_disp_draw_buf_init(&draw_buf, buf1, NULL, DRAW_BUF_SIZE);
+	static lv_color_t buf2[DRAW_BUF_SIZE]; // Double buffering
+	disp = lv_display_create(SCREEN_WIDTH, SCREEN_HEIGHT);
+	lv_display_set_flush_cb(disp, my_disp_flush);
+	lv_display_set_buffers(disp, buf1, buf2, sizeof(buf1), LV_DISPLAY_RENDER_MODE_PARTIAL);
 
-	// LVGL display driver
-	static lv_disp_drv_t disp_drv;
-	lv_disp_drv_init(&disp_drv);
-	disp_drv.hor_res = SCREEN_WIDTH;
-	disp_drv.ver_res = SCREEN_HEIGHT;
-	disp_drv.flush_cb = my_disp_flush;
-	disp_drv.draw_buf = &draw_buf;
-	lv_disp_drv_register(&disp_drv);
+	// Touchscreen input
+	lv_indev_t *indev = lv_indev_create();
+	lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
+	lv_indev_set_read_cb(indev, touchscreen_read);
 
-	// LVGL input driver
-	static lv_indev_drv_t indev_drv;
-	lv_indev_drv_init(&indev_drv);
-	indev_drv.type = LV_INDEV_TYPE_POINTER;
-	indev_drv.read_cb = touchscreen_read;
-	lv_indev_drv_register(&indev_drv);
-
-	// EEZ UI
+	// Init EEZ Studio GUI
 	ui_init();
 }
 
 void loop()
 {
 	lv_task_handler();
-	lv_tick_inc(5); // ✅ This is where LVGL time advances
+	lv_tick_inc(5);
 	delay(5);
 }

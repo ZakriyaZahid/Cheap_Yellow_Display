@@ -40,23 +40,27 @@ void loadScreen(enum ScreensEnum screenId)
 {
     currentScreen = screenId - 1;
     lv_obj_t *screen = getLvglObjectFromIndex(currentScreen);
-    // lv_scr_load_anim(screen, LV_SCR_LOAD_ANIM_FADE_IN, 50, 0, false);
+    // lv_scr_load_anim(screen, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0, false);
     lv_scr_load(screen);
 }
 
-// ############################################################# //
+// void ui_init()
+// {
+//     create_screens();
+//     loadScreen(SCREEN_ID_DASHBOARD);
+// }
+
 void go_to_main_screen_cb(lv_timer_t *timer)
 {
     loadScreen(SCREEN_ID_DASHBOARD);
     lv_timer_del(timer); // Optional: clean up the timer
 }
 
-// ############################################################# //
-
 void ui_init()
 {
     create_screens();
-    loadScreen(SCREEN_ID_MAIN);
+    loadScreen(SCREEN_ID_MAIN); // Show main screen
+
     // Set a one-shot timer to switch to dashboard after 2000 ms
     lv_timer_create(go_to_main_screen_cb, 2000, NULL);
 }
