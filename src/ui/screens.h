@@ -4,63 +4,64 @@
 #include <lvgl.h>
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-    typedef struct _objects_t
-    {
-        lv_obj_t *dashboard;
-        lv_obj_t *main;
-        lv_obj_t *settings;
-        lv_obj_t *temp_visual;
-        lv_obj_t *co2_visual;
-        lv_obj_t *humid_visual;
-        lv_obj_t *temp_value_display;
-        lv_obj_t *obj0;
-        lv_obj_t *humid_value_display;
-        lv_obj_t *co2_value_display;
-        lv_obj_t *obj1;
-        lv_obj_t *obj2;
-        lv_obj_t *obj3;
-        lv_obj_t *obj4;
-        lv_obj_t *obj5; // ✅ Add this
-        lv_obj_t *obj6; // ✅ And this
-        lv_obj_t *co2_critical_value;
-        lv_obj_t *humid_critical_value;
-        lv_obj_t *temp_critical_value;
-        lv_obj_t *home_button;
-        lv_obj_t *update_critical_values_button;
-        lv_obj_t *keypad;
-    } objects_t;
+typedef struct _objects_t {
+    lv_obj_t *main;
+    lv_obj_t *spec5_home_container;
+    lv_obj_t *active_nodes_label;
+    lv_obj_t *group_message_label;
+    lv_obj_t *received_message_label;
+    lv_obj_t *sent_message_label;
+    lv_obj_t *terminal_label;
+    lv_obj_t *header_container;
+    lv_obj_t *title_header_label;
+    lv_obj_t *info_header_label;
+    lv_obj_t *terminal_container;
+    lv_obj_t *terminal_back_btn;
+    lv_obj_t *terminal_text_area;
+    lv_obj_t *left_icon_bar;
+    lv_obj_t *spec5_icon_btn;
+    lv_obj_t *nodes_icon_btn;
+    lv_obj_t *recieved_messages_icon_btn;
+    lv_obj_t *sent_messages_icon_btn;
+    lv_obj_t *group_messages_icon_btn;
+    lv_obj_t *terminal_icon_btn;
+    lv_obj_t *input_text_container;
+    lv_obj_t *send_input_text_btn;
+    lv_obj_t *input_text_area;
+    lv_obj_t *label_list_container;
+    lv_obj_t *label_list;
+    lv_obj_t *label1;
+    lv_obj_t *label2;
+    lv_obj_t *label3;
+    lv_obj_t *label4;
+    lv_obj_t *label5;
+    lv_obj_t *label6;
+    lv_obj_t *label7;
+    lv_obj_t *label8;
+    lv_obj_t *label9;
+    lv_obj_t *label10;
+    lv_obj_t *text_container;
+    lv_obj_t *back_from_text_btn;
+    lv_obj_t *msg_text_area;
+} objects_t;
 
-    extern objects_t objects;
+extern objects_t objects;
 
-    enum ScreensEnum
-    {
-        SCREEN_ID_DASHBOARD = 1,
-        SCREEN_ID_MAIN = 2,
-        SCREEN_ID_SETTINGS = 3,
-    };
+enum ScreensEnum {
+    SCREEN_ID_MAIN = 1,
+};
 
-    void create_screen_dashboard();
-    void tick_screen_dashboard();
+void create_screen_main();
+void tick_screen_main();
 
-    void create_screen_main();
-    void tick_screen_main();
+void tick_screen_by_id(enum ScreensEnum screenId);
+void tick_screen(int screen_index);
 
-    void create_screen_settings();
-    void tick_screen_settings();
+void create_screens();
 
-    void tick_screen_by_id(enum ScreensEnum screenId);
-    void tick_screen(int screen_index);
-
-    void create_screens();
-
-    extern void update_sensor_display_cb(lv_timer_t *timer);
-    extern void init_sensor_data();
-    extern void keypad_event_cb(lv_event_t *e);
-    extern void textarea_event_cb(lv_event_t *e);
 
 #ifdef __cplusplus
 }
