@@ -7,34 +7,34 @@
 extern "C" {
 #endif
 
-// Style: sensor_name
-lv_style_t *get_style_sensor_name_MAIN_DEFAULT();
-void add_style_sensor_name(lv_obj_t *obj);
-void remove_style_sensor_name(lv_obj_t *obj);
+// Style: left_menu_button_style
+lv_style_t *get_style_left_menu_button_style_MAIN_DEFAULT();
+void add_style_left_menu_button_style(lv_obj_t *obj);
+void remove_style_left_menu_button_style(lv_obj_t *obj);
 
-// Style: sensor_value_cover
-lv_style_t *get_style_sensor_value_cover_MAIN_DEFAULT();
-void add_style_sensor_value_cover(lv_obj_t *obj);
-void remove_style_sensor_value_cover(lv_obj_t *obj);
+// Style: left_menu_label_style
+lv_style_t *get_style_left_menu_label_style_MAIN_DEFAULT();
+void add_style_left_menu_label_style(lv_obj_t *obj);
+void remove_style_left_menu_label_style(lv_obj_t *obj);
 
-// Style: critical_name
-lv_style_t *get_style_critical_name_MAIN_DEFAULT();
-void add_style_critical_name(lv_obj_t *obj);
-void remove_style_critical_name(lv_obj_t *obj);
+// Style: list_labels
+lv_style_t *get_style_list_labels_MAIN_DEFAULT();
+void add_style_list_labels(lv_obj_t *obj);
+void remove_style_list_labels(lv_obj_t *obj);
 
-// Style: critical_input
-lv_style_t *get_style_critical_input_MAIN_DEFAULT();
-void add_style_critical_input(lv_obj_t *obj);
-void remove_style_critical_input(lv_obj_t *obj);
+// Style: list_buttons
+lv_style_t *get_style_list_buttons_MAIN_DEFAULT();
+void add_style_list_buttons(lv_obj_t *obj);
+void remove_style_list_buttons(lv_obj_t *obj);
 
-// Style: Keypad_button
-void add_style_keypad_button(lv_obj_t *obj);
-void remove_style_keypad_button(lv_obj_t *obj);
+// Style: bottom_right_container
+void add_style_bottom_right_container(lv_obj_t *obj);
+void remove_style_bottom_right_container(lv_obj_t *obj);
 
-// Style: sensor_value
-lv_style_t *get_style_sensor_value_MAIN_DEFAULT();
-void add_style_sensor_value(lv_obj_t *obj);
-void remove_style_sensor_value(lv_obj_t *obj);
+// Style: spec5_home_page_labels
+lv_style_t *get_style_spec5_home_page_labels_MAIN_DEFAULT();
+void add_style_spec5_home_page_labels(lv_obj_t *obj);
+void remove_style_spec5_home_page_labels(lv_obj_t *obj);
 
 
 
