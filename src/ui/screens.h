@@ -30,6 +30,7 @@ typedef struct _objects_t {
     lv_obj_t *terminal_icon_btn;
     lv_obj_t *input_text_container;
     lv_obj_t *send_input_text_btn;
+    lv_obj_t *obj0;
     lv_obj_t *input_text_area;
     lv_obj_t *label_list_container;
     lv_obj_t *label_list;
@@ -45,6 +46,7 @@ typedef struct _objects_t {
     lv_obj_t *label10;
     lv_obj_t *text_container;
     lv_obj_t *back_from_text_btn;
+    lv_obj_t *obj1;
     lv_obj_t *msg_text_area;
 } objects_t;
 

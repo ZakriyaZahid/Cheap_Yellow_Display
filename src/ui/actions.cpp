@@ -43,41 +43,41 @@
 #include <string.h> // for strcpy
 
 char active_nodes[10][30] = {
-    "Node_1",
-    "Node_2",
-    "Node_3",
-    "Node_4",
-    "Node_5",
-    "Node_6",
-    "Node_7",
-    "Node_8",
-    "Node_9",
-    "Node_10"};
+    "User_Ahmad_1023",
+    "User_Sara_2045",
+    "User_Zain_3101",
+    "User_Ayesha_1189",
+    "User_Talha_4520",
+    "User_Mina_6732",
+    "User_Hassan_7810",
+    "User_Laiba_2299",
+    "User_Fahad_3902",
+    "User_Nida_5477"};
 
-// define arrays with initial values
 char sent_messages[10][150] = {
-    "Sent Hello kdhasihf bsadhhg akgidga jah",
-    "Sent mabdjkajkijkd jlajkajs",
-    "Sent akjhdfij jkashdui buiawho , uoashjdo",
-    "Sent jdbfsjhb njabsfhjb hjgasuidf jgasd jhagsuy",
-    "Sent jbahjsd hjabhsb",
-    "Sent aksjbdjih hjauidh kioqwio juhwioa nuioahio",
-    "Sent ksafgasgb hjasfuha bjgsafuguh jhagfuhga",
-    "Sent janbhj jahdgsu",
-    "Sent ajhvhjjhhj hbhjbhj 9",
-    "Sent 1ajbfduhbb jkahsduih"};
+    "1. Temperature reading request initiated at 10:32 AM.",
+    "2. Device status check command issued successfully.",
+    "3. Firmware update package transmitted to node A12.",
+    "4. Alert triggered due to threshold breach in sensor 3.",
+    "5. Synchronization signal dispatched to all connected modules.",
+    "6. Configuration parameters uploaded to remote unit.",
+    "7. Heartbeat signal sent to maintain active connection.",
+    "8. Data logging enabled for environmental metrics.",
+    "9. Request for historical data from last 24 hours.",
+    "10. Shutdown command issued for non-responsive device."};
 
 char recieved_messages[10][150] = {
-    "Recieved Hello kdhasihf bsadhhg akgidga jah",
-    "Recieved mabdjkajkijkd jlajkajs",
-    "Recieved akjhdfij jkashdui buiawho , uoashjdo",
-    "Recieved jdbfsjhb njabsfhjb hjgasuidf jgasd jhagsuy",
-    "Recieved jbahjsd hjabhsb",
-    "Recieved aksjbdjih hjauidh kioqwio juhwioa nuioahio",
-    "Recieved ksafgasgb hjasfuha bjgsafuguh jhagfuhga",
-    "Recieved janbhj jahdgsu",
-    "Recieved ajhvhjjhhj hbhjbhj 9",
-    "Recieved 1ajbfduhbb jkahsduih"};
+    "1. Temperature reading acknowledged, value is 24.7°C.",
+    "2. Device status is normal, all systems operational.",
+    "3. Firmware update completed successfully on node A12.",
+    "4. Alert confirmed, initiating safety protocol sequence.",
+    "5. Synchronization complete across all active modules.",
+    "6. Configuration parameters accepted and applied.",
+    "7. Heartbeat acknowledged, connection stable.",
+    "8. Data logging active, metrics being recorded.",
+    "9. Historical data retrieved and ready for analysis.",
+    "10. Shutdown confirmed, device powered down safely."};
+
 // strcpy(messages[0], "New text");
 
 //==============================================================================

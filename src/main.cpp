@@ -89,10 +89,10 @@ void touchscreen_read(lv_indev_t *indev, lv_indev_data_t *data)
 	if (touchscreen.tirqTouched() && touchscreen.touched())
 	{
 		TS_Point p = touchscreen.getPoint();
-		// int x = map(p.y, 240, 3800, SCREEN_WIDTH, 1);
-		// int y = map(p.x, 200, 3700, 1, SCREEN_HEIGHT);
-		int x = constrain(map(p.y, 240, 3800, 1, SCREEN_WIDTH), 0, SCREEN_WIDTH - 1);
-		int y = constrain(map(p.x, 200, 3700, SCREEN_HEIGHT, 1), 0, SCREEN_HEIGHT - 1);
+		int x = map(p.y, 240, 3800, SCREEN_WIDTH, 1);
+		int y = map(p.x, 200, 3700, 1, SCREEN_HEIGHT);
+		// int x = constrain(map(p.y, 240, 3800, 1, SCREEN_WIDTH), 0, SCREEN_WIDTH - 1);
+		// int y = constrain(map(p.x, 200, 3700, SCREEN_HEIGHT, 1), 0, SCREEN_HEIGHT - 1);
 
 		data->state = LV_INDEV_STATE_PRESSED;
 		data->point.x = x;

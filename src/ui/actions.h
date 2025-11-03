@@ -29,7 +29,6 @@ extern "C"
     void show_active_nodes_list();
 
     // ##########################################################################//
-
     extern void action_spec5_btn_event(lv_event_t *e);
     extern void action_nodes_btn_event(lv_event_t *e);
     extern void action_grp_msg_btn_event(lv_event_t *e);

@@ -10,8 +10,8 @@
 //
 
 void init_style_left_menu_button_style_MAIN_DEFAULT(lv_style_t *style) {
-    lv_style_set_bg_color(style, lv_color_hex(0xff81baf4));
-    lv_style_set_shadow_color(style, lv_color_hex(0xff81baf4));
+    lv_style_set_bg_color(style, lv_color_hex(0xff46494b));
+    lv_style_set_shadow_color(style, lv_color_hex(0xff2d3237));
 };
 
 lv_style_t *get_style_left_menu_button_style_MAIN_DEFAULT() {
@@ -138,8 +138,9 @@ void remove_style_bottom_right_container(lv_obj_t *obj) {
 //
 
 void init_style_spec5_home_page_labels_MAIN_DEFAULT(lv_style_t *style) {
-    lv_style_set_border_color(style, lv_color_hex(0xff000000));
+    lv_style_set_border_color(style, lv_color_hex(0xffffffff));
     lv_style_set_border_width(style, 2);
+    lv_style_set_text_color(style, lv_color_hex(0xffffffff));
 };
 
 lv_style_t *get_style_spec5_home_page_labels_MAIN_DEFAULT() {
